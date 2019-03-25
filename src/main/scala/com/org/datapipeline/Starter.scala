@@ -7,7 +7,7 @@ import com.org.datapipeline.model.process.Process
 
 import scala.util.{Try, Success, Failure}
 
-object starter extends App{
+object Starter extends App{
 
   val hiveMetaStore = args(1)
   val propsPath = args(0)
