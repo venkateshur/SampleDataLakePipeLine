@@ -9,8 +9,10 @@ import scala.util.{Try, Success, Failure}
 
 object starter extends App{
 
-  val sparkSession = createSparkSession(args(1))
-  val driver: Driver = initializeDriver(args)(sparkSession)
+  val hiveMetaStore = args(1)
+  val propsPath = args(0)
+  val sparkSession = createSparkSession(hiveMetaStore)
+  val driver: Driver = initializeDriver(propsPath)(sparkSession)
 
 
   Try{
@@ -29,7 +31,7 @@ object starter extends App{
       .getOrCreate()
   }
 
-  def initializeDriver(args: Array[String])(sparkSession: SparkSession): Driver = {
+  def initializeDriver(path: String)(sparkSession: SparkSession): Driver = {
     val driver = new Driver
     driver.loadTablePropertits(args(0))(sparkSession)
     driver
