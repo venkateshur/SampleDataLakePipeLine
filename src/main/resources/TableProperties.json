@@ -1,0 +1,8 @@
+{
+  "dataPipeLineProperties":{"tableInfo":[
+    {"baseTable":"dpl.customers_parqt",
+    "backUpTable":"dpl.customers_parqt_bkp",
+    "historyTable":"DPL.customers_parqt_h",
+    "etlStatsTable":"DPL.ETL_STATS"}]
+  }
+}
