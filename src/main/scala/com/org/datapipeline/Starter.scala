@@ -33,7 +33,7 @@ object Starter extends App{
 
   def initializeDriver(path: String)(sparkSession: SparkSession): Driver = {
     val driver = new Driver
-    driver.loadTablePropertits(args(0))(sparkSession)
+    driver.loadTablePropertits(path)(sparkSession)
     driver
   }
 }
