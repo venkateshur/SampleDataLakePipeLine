@@ -1,7 +1,7 @@
 {
   "dataPipeLineProperties":{"tableInfo":[
     {"dpl.customers_parqt":["dpl.customers_parqt_bkp",
-      "dpl.customers_h",
-      "dpl.etl_stats"]}]
+    "dpl.customers_h",
+    "dpl.etl_stats"]}]
   }
 }
