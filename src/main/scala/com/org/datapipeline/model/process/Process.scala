@@ -62,7 +62,7 @@ object Process {
     import sparkSession.implicits._
 
     val addSeq = sparkSession.createDataFrame(unionDf.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + prevRowNumber, line._1.toSeq))),
-      StructType(Array(StructField("customer_seq_id_gen", LongType, false)) ++ unionDf.schema.fields))
+      StructType(Array(StructField("customer_seq_id_gen",IntegerType, false)) ++ unionDf.schema.fields))
 
     addSeq.withColumn("start_date", current_timestamp)
       .withColumn("end_date", current_timestamp)
@@ -84,7 +84,7 @@ object Process {
     val data = spark.createDataFrame(Seq(Etl_stats(etl_stats_pre_count,etl_stats_pos_count,etl_stats_updates,etl_stats_deletes,etl_stats_delta,"ETL_USER"))).toDF
     val data_DF = data.withColumn("start_date",current_timestamp).withColumn("end_date",current_timestamp).withColumn("last_modified_dt",current_timestamp).withColumn("Job_Name",lit("CUSTOMER_TABLE"))
     val addSeq = spark.
-      createDataFrame(data_DF.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + maxRowNumber) ++ line._1.toSeq)),StructType(Array(StructField("seq_id_gen", LongType, false)) ++ data_DF.schema.fields))
+      createDataFrame(data_DF.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + maxRowNumber) ++ line._1.toSeq)),StructType(Array(StructField("seq_id_gen", IntegerType, false)) ++ data_DF.schema.fields))
 
     addSeq.select(col("seq_id_gen").cast("integer").alias("seq_id"), col("start_date"), col("end_date"), col("pre_count"), col("delta_count"), col("post_counts"), col("updated_counts"),
       col("deleted_counts"), col("last_modified_dt"), col("last_modified_by"), col("Job_Name"))
