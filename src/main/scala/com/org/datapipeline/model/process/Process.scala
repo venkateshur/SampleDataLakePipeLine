@@ -61,13 +61,13 @@ object Process {
     val unionDf = totalUpdates.union(totalDeletes)
     import sparkSession.implicits._
 
-    val addSeq = sparkSession.createDataFrame(unionDf.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + prevRowNumber, line._1.toSeq))),
-      StructType(Array(StructField("customer_seq_id_gen",IntegerType, false)) ++ unionDf.schema.fields))
+    val addSeq = sparkSession.createDataFrame(unionDf.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + prevRowNumber) ++ line._1.toSeq)),
+      StructType(Array(StructField("customer_seq_id", LongType, false)) ++ unionDf.schema.fields))
 
     addSeq.withColumn("start_date", current_timestamp)
       .withColumn("end_date", current_timestamp)
       .withColumn("last_modified_dt", current_timestamp)
-      .select($"customer_seq_id_gen".cast("integer").alias("customer_seq_id"), col("customer_id"), col("customer_fname"),
+      .select($"customer_seq_id".cast("integer"), col("customer_id"), col("customer_fname"),
         col("customer_lname"), col("customer_email"), col("customer_password"),
         col("customer_street"), col("customer_city"), col("customer_state"),col("customer_zipcode"),
         col("status"), col("start_date"),
@@ -84,9 +84,9 @@ object Process {
     val data = spark.createDataFrame(Seq(Etl_stats(etl_stats_pre_count,etl_stats_pos_count,etl_stats_updates,etl_stats_deletes,etl_stats_delta,"ETL_USER"))).toDF
     val data_DF = data.withColumn("start_date",current_timestamp).withColumn("end_date",current_timestamp).withColumn("last_modified_dt",current_timestamp).withColumn("Job_Name",lit("CUSTOMER_TABLE"))
     val addSeq = spark.
-      createDataFrame(data_DF.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + maxRowNumber) ++ line._1.toSeq)),StructType(Array(StructField("seq_id_gen", IntegerType, false)) ++ data_DF.schema.fields))
+      createDataFrame(data_DF.rdd.zipWithIndex.map(line => Row.fromSeq(Seq(line._2 + 1.toLong + maxRowNumber) ++ line._1.toSeq)),StructType(Array(StructField("seq_id", LongType, false)) ++ data_DF.schema.fields))
 
-    addSeq.select(col("seq_id_gen").cast("integer").alias("seq_id"), col("start_date"), col("end_date"), col("pre_count"), col("delta_count"), col("post_counts"), col("updated_counts"),
+    addSeq.select(col("seq_id").cast("integer").alias("seq_id"), col("start_date"), col("end_date"), col("pre_count"), col("delta_count"), col("post_counts"), col("updated_counts"),
       col("deleted_counts"), col("last_modified_dt"), col("last_modified_by"), col("Job_Name"))
   }
 
