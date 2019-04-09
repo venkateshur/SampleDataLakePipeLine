@@ -1,7 +1,26 @@
 {
-  "dataPipeLineProperties":{"tableInfo":[
-    {"dpl.customers_parqt":["dpl.customers_parqt_bkp",
-    "dpl.customers_h",
-    "dpl.etl_stats"]}]
+  "dataPipeLineProperties": {
+    "tablesInfo": [
+      {
+        "dpl.customers_parqt": [
+          {
+            "backup_Table": "dpl.customers_parqt_bkp",
+            "history_Table": "dpl.customers_h",
+            "Key_Columns": ["customer_seqID, customer_Fname"],
+            "sequence_Id_Column": "customer_seq_Id"
+          }
+        ],
+        "dpl.customers_parqt": [
+          {
+            "backup_Table": "dpl.customers_parqt_bkp",
+            "history_Table": "dpl.customers_h",
+            "Key_Columns": ["customer_seqID, customer_Fname"],
+            "sequence_Id_Column": "customer_seq_Id"
+          }
+        ],
+
+      }
+    ],
+    "status_table" : "dpl.etl_stats"
   }
 }

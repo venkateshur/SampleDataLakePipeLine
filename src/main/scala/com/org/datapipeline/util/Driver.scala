@@ -23,6 +23,6 @@ class Driver {
   def createTableInfo(tableData: List[Map[String, List[String]]]) {
     dataPipeLineProps = dataPipeLineProps.copy(
       tables = tableData.flatMap{x => x.map(y => {
-        TableInfo(( BaseTable(y._1), OtherTables(y._2(0), y._2(1), y._2(2))))})})
+        TableInfo(( Tables(), OtherTables(y._2(0), y._2(1), y._2(2))))})})
   }
 }
